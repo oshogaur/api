@@ -35,12 +35,14 @@ router.get('/:id', function(req, res,next) {
     })
 });
 //inserted
+/*
 router.post('/insert', function(req, res) {
    var name =req.body.name;
    var email = req.body.email;
    var password = req.body.password;
-   var sql =  `INSERT INTO users( name, email, password) VALUES ("${name}","${email}","${password}")`;
-   //var sql =  "INSERT INTO `users`(`name`, `email`, `password`) VALUES ('"+ req.body.name +"','"+ req.body.email +"','"+ req.body.password+"')"
+  var sql =  `INSERT INTO users( name, email, password) VALUES ("${name}","${email}","${password}")`;
+  console.log(req.body);
+  // var sql =  "INSERT INTO `users`(`name`, `email`, `password`) VALUES ('"+ req.body.name +"','"+ req.body.email +"','"+ req.body.password+"')"
    con.query(sql, function(err,result) {
      if (err) {
          res.send('something went wrong');
@@ -49,14 +51,32 @@ router.post('/insert', function(req, res) {
           req.body('data inserted');
     // res.json({status:'sucess',id:result.insertid});
    })
-});
+});*/
+
+
+
+router.post('/submit',function(req,res){
+  //this console.body give the body in null so that we can execute in our query
+    console.log(req.body);
+     //making insert query and that res.body.name is the name of the body we pass and that body we get from console.log
+con.query("INSERT INTO `users`(`name`, `email`, `password`) VALUES ('"+ req.body.name +"','"+ req.body.email +"','"+ req.body.password+"')",function(err){
+      if (err) throw err       
+      // res.sendFile('details.html',{root:__dirname});
+      //res.render('details',{title:'Data saved',message:'saved sucessfully'})
+        res.send('data inserted sucessfully');
+       }); 
+  
+      });
+
+
 //how to update data
-router.put('/update/:id', function(req, res) {
+router.put('/update/:id', function(req, res,next) {
+  
     var id = req.params.id;
     var name =req.body.name;
     var email = req.body.email;
     var password = req.body.password;
-    var sql = `UPDATE users SET name=${name},email=${email},password=${password} WHERE id =${id}`;
+    var sql = `UPDATE users SET name="${name}",email="${email}",password="${password}" WHERE id =${id}`;
     //var sql =  "INSERT INTO `users`(`name`, `email`, `password`) VALUES ('"+ req.body.name +"','"+ req.body.email +"','"+ req.body.password+"')"
     con.query(sql, function(err,result) {
       if (err) {
@@ -68,7 +88,7 @@ router.put('/update/:id', function(req, res) {
     })
  });
 //how to delete data
- router.delete('/update/:id', function(req, res) {
+ router.delete('/delete/:id', function(req, res,next) {
     var id = req.params.id;
     var name =req.body.name;
     var email = req.body.email;
